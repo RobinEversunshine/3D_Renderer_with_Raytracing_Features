@@ -10,7 +10,7 @@ Demonstration video: https://youtu.be/fKUWnsxJR1k?si=sD99a8XJuTrEfcNS
 
 More details and explanations about every step to built this 3D renderer on my Notion page: https://elevated-temples.notion.site/homemade-raytracing-renderer-with-vex
 
-![image](https://file.notion.so/f/f/eba495ae-27ec-4b29-a0c4-e438c9218d5a/1777698c-2a97-4334-afe9-4230a2bf9243/Snipaste_2025-01-07_15-48-27.png?table=block&id=18ae227c-997d-8001-8f04-f365e5429104&spaceId=eba495ae-27ec-4b29-a0c4-e438c9218d5a&expirationTimestamp=1738144800000&signature=zXze4yPR7vcDTwkdFjrqzXhsI9azeaFopCqUnDO8vbk&downloadName=Snipaste_2025-01-07_15-48-27.png)
+![image](https://file.notion.so/f/f/eba495ae-27ec-4b29-a0c4-e438c9218d5a/1777698c-2a97-4334-afe9-4230a2bf9243/Snipaste_2025-01-07_15-48-27.png?table=block&id=18ae227c-997d-8001-8f04-f365e5429104&spaceId=eba495ae-27ec-4b29-a0c4-e438c9218d5a&expirationTimestamp=1738188000000&signature=jiaccxfXmrdq0UIRWz6kRNoZgV07Vh0Pv0b1ik_sh2k&downloadName=Snipaste_2025-01-07_15-48-27.png)
 
 ![image](https://file.notion.so/f/f/eba495ae-27ec-4b29-a0c4-e438c9218d5a/3fc841b5-b7ea-43fc-8af3-988477706911/GIF.gif?table=block&id=07ac639e-90e8-4270-99a5-2d2465a1eb61&spaceId=eba495ae-27ec-4b29-a0c4-e438c9218d5a&expirationTimestamp=1738144800000&signature=S_vxkZsFYnn5mvL0S7EJF_HCMKco5Qx3Npw4-y1ABV8&downloadName=GIF.gif)
 
