@@ -1,7 +1,7 @@
 # Renderer with Raytracing Features
 A homemade 3D renderer using VEX language in Houdini, with raytracing features like global illumination and reflections.
 
-Houdini is a software used in Visual Effects industry, and also a great tool for technical artists to use such as procedural modeling and multi-tasking. 
+Houdini is a software used in Visual Effects industry, and also a great tool for technical artists to use in game industry, such as procedural modeling and multi-tasking. 
 
 This project is to demonstrate my ability of linear algebra use, as well as physical-based rendering & light calculating.
 
