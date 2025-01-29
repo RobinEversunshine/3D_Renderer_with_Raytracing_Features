@@ -10,10 +10,10 @@ Demonstration video: https://youtu.be/fKUWnsxJR1k?si=sD99a8XJuTrEfcNS
 
 More details and explanations about every step to built this 3D renderer on my Notion page: https://elevated-temples.notion.site/homemade-raytracing-renderer-with-vex
 
-![image](https://file.notion.so/f/f/eba495ae-27ec-4b29-a0c4-e438c9218d5a/1777698c-2a97-4334-afe9-4230a2bf9243/Snipaste_2025-01-07_15-48-27.png?table=block&id=18ae227c-997d-8001-8f04-f365e5429104&spaceId=eba495ae-27ec-4b29-a0c4-e438c9218d5a&expirationTimestamp=1738188000000&signature=jiaccxfXmrdq0UIRWz6kRNoZgV07Vh0Pv0b1ik_sh2k&downloadName=Snipaste_2025-01-07_15-48-27.png)
+![image](https://cdnb.artstation.com/p/assets/images/images/084/354/469/large/xinyu-robin-cai-snipaste-2025-01-07-15-48-27.jpg?1738163978)
 
-![image](https://file.notion.so/f/f/eba495ae-27ec-4b29-a0c4-e438c9218d5a/3fc841b5-b7ea-43fc-8af3-988477706911/GIF.gif?table=block&id=07ac639e-90e8-4270-99a5-2d2465a1eb61&spaceId=eba495ae-27ec-4b29-a0c4-e438c9218d5a&expirationTimestamp=1738144800000&signature=S_vxkZsFYnn5mvL0S7EJF_HCMKco5Qx3Npw4-y1ABV8&downloadName=GIF.gif)
+![image](https://cdnb.artstation.com/p/assets/images/images/084/354/465/original/xinyu-robin-cai-gif.gif?1738163974)
 
-![image](https://file.notion.so/f/f/eba495ae-27ec-4b29-a0c4-e438c9218d5a/3a2996bb-20b4-470a-8e7b-eb9547a09aec/GIF.gif?table=block&id=7dee7289-8dd5-4103-a751-bfb3d088b0e1&spaceId=eba495ae-27ec-4b29-a0c4-e438c9218d5a&expirationTimestamp=1738144800000&signature=XgIIXW6nRIlMzk_ZEfeIfb0vy0OdT6p14yPNESHTw8I&downloadName=GIF.gif)
+![image](https://cdnb.artstation.com/p/assets/images/images/083/908/719/original/xinyu-robin-cai-gif.gif?1737059072)
 
 ![image](https://cdna.artstation.com/p/assets/images/images/083/908/774/large/xinyu-robin-cai-snipaste-2025-01-16-15-26-33.jpg?1737059208)
