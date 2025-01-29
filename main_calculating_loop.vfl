@@ -1,0 +1,131 @@
+vector p;
+float u;
+float v;
+
+vector P = @P;
+vector N = @N;
+int geo_handle = 0;
+int light_handle = 1;
+
+v@diffuse;
+f[]@mask_list;
+v@ao;
+i[]@gi_ptnum;
+f[]@gi_dist;
+
+int sample = chi("sample_counts");
+int ao_sample = chi("ao_sample_counts");
+
+float roughness;
+if (@roughness == 0){
+    roughness = ch("roughness");
+}else{
+    roughness = @roughness;
+}
+
+
+
+vector mirror(vector input_dir; vector mirror_line){
+    vector mirror_plane = cross(cross(input_dir, mirror_line), mirror_line);
+    vector mirrored_dir = normalize(reflect(input_dir, normalize(mirror_plane)));
+    return mirrored_dir;
+}
+
+
+
+//get light number
+int light_num = npoints(light_handle);
+
+
+//loop every light
+for(int l = 0; l < light_num; l++){
+    
+    //attributes of point light
+    vector pos_orig = point(light_handle, "P", l);
+    float intensity = point(light_handle, "intensity", l);
+    float light_size = point(light_handle, "pscale", l);
+    vector light_cd = point(light_handle, "Cd", l);
+    
+    
+    //Blending samples to make the result more accurate
+    for (int i = 0; i < sample; i++){
+        
+        vector ray_orig = pos_orig - P;
+        
+        //random offset of light source every sample
+        vector2 rand_pos = rand(i);
+        vector pos = pos_orig + sample_hemisphere(-ray_orig, 0, rand_pos) * light_size;
+        
+        ////////////////////////////////////////////////////////////////////////////////////
+        
+        //calculate diffuse
+        vector ray = pos - P;
+        float distance = length(ray);
+        float atten = 1 / pow(distance + 1, 2);
+        vector color = clamp(dot(N, normalize(ray)), 0, 1) * atten * intensity * light_cd;
+        
+        @diffuse += color / sample;
+        
+        ////////////////////////////////////////////////////////////////////////////////////
+        
+        //calculate shadows
+        float mask;
+        int id = intersect(geo_handle, P + N * 0.001, ray, p, u, v);
+        
+        if (id == -1)
+            mask = intensity;
+        
+        @mask_list[l] += mask / sample;
+        
+        ////////////////////////////////////////////////////////////////////////////////////
+        
+        //calculate GI
+        
+        if (mask > 0){
+            //scatter direct light with roughness
+            vector reflect_gi = mirror(ray, N);
+            
+            vector2 rand_gi = rand(i + @ptnum + 79);
+            reflect_gi += sample_direction_cone(reflect_gi, radians(fit01(roughness, 0, 180)), rand_gi);
+            reflect_gi = normalize(reflect_gi);
+            
+            //check gi collision
+            vector gi_pos;
+            int id_gi = intersect(geo_handle, P + N * 0.001, reflect_gi * ch("gi_max_distance"), gi_pos, u, v);
+            
+            //make lists of collided point numbers and distances
+            if (id_gi != -1){
+                int gi_ptnum = nearpoint(geo_handle, gi_pos);
+                append(@gi_ptnum, gi_ptnum);
+                
+                float atten_gi = 1 / pow(distance(P, gi_pos) + 1, 2);
+                append(@gi_dist, atten_gi / sample / light_num);
+            }
+        } 
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+    
+    
+for (int i = 0; i < ao_sample; i++){
+    //calculate ao
+    float ao = 1;
+    
+    //randomly scatter directions along normal
+    vector2 rand_off = rand(i + 99);
+    vector normal_off = normalize(N + sample_direction_cone(N, 180, rand_off)) * ch("ao_distance");
+    
+    //calculate intersection distance
+    vector occlusion_pos;
+    int id_ao = intersect(geo_handle, P + N * 0.001, normal_off, occlusion_pos, u, v);
+
+    if (id_ao != -1)
+        ao *= clamp(distance(P, occlusion_pos), 0, 1);
+    
+    @ao += ao / ao_sample;
+}
+
+
+@ao *= @Cd;
+@Cd *= @diffuse;

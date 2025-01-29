@@ -1,0 +1,105 @@
+vector P = @P;
+vector N = @N;
+int geo_handle = 0;
+int light_handle = 1;
+int camera_handle = 2;
+
+v@specular;
+v@reflection;
+
+int sample = chi("sample_counts");
+
+float roughness;
+if (@roughness == 0){
+    roughness = ch("roughness");
+}else{
+    roughness = @roughness;
+}
+
+//position of camera
+vector camera_pos = point(camera_handle, "P", 0);
+
+
+
+vector mirror(vector input_dir; vector mirror_line){
+    vector mirror_plane = cross(cross(input_dir, mirror_line), mirror_line);
+    vector mirrored_dir = normalize(reflect(input_dir, normalize(mirror_plane)));
+    return mirrored_dir;
+}
+
+
+// in camera view
+vector camera_dir = normalize(camera_pos - P);
+
+if (dot(camera_dir, N) > 0){
+
+    vector reflect_dir_ = -mirror(camera_dir, N);
+    
+    //get light number
+    int light_num = npoints(light_handle);
+    
+    
+    //Blending samples to make the result more accurate
+    for (int i = 0; i < sample; i++){
+        vector reflect_dir = reflect_dir_;
+
+        vector2 rand_ref = rand(i + @ptnum + 49);
+        reflect_dir += sample_direction_cone(reflect_dir, radians(fit01(roughness, 0, 90)), rand_ref);
+        reflect_dir = normalize(reflect_dir);
+        
+        ////////////////////////////////////////////////////////////////////////////////////
+        
+        vector specular = {0, 0, 0};
+        
+        //loop every light
+        for(int l = 0; l < light_num; l++){
+            
+            //attributes of point light
+            vector pos_orig = point(light_handle, "P", l);
+            float intensity = point(light_handle, "intensity", l);
+            float light_size = point(light_handle, "pscale", l);
+            vector light_cd = point(light_handle, "Cd", l);
+        
+        
+            //calculate specular light
+            //the max angle between light center and the ray to reach the light
+            vector ray_orig = pos_orig - P;
+            float max_angle = atan(light_size / length(ray_orig));
+            float max_threshold = cos(max_angle);
+            
+            //remap specular value
+            vector specular_raw = -dot(normalize(ray_orig), reflect_dir);
+            specular_raw = fit(specular_raw, max_threshold - 0.01 - roughness * 0.1, max_threshold + roughness * 0.2, 0, 1) * intensity;
+            specular_raw *= light_cd;
+            
+            //mask with shadow pass
+            specular_raw *= f[]@mask_list[l];
+            
+            //combine all light's highlights
+            float atten_spec = 1 / pow(distance(P, pos_orig) + 1, 2);
+            specular_raw *= atten_spec;
+            specular += specular_raw;
+        }
+        
+        @specular += specular /= sample;
+        
+        ////////////////////////////////////////////////////////////////////////////////////
+        
+        //calculate reflection light
+        vector reflection;
+        
+        vector ref_pos;
+        vector ref_uv;
+        int id_ref = intersect(geo_handle, P + N * 0.001, -reflect_dir * ch("ref_max_distance"), ref_pos, ref_uv);
+        
+        if (id_ref != -1){
+            float atten_ref = 1 / pow(distance(P, ref_pos) + 1, 2);
+            reflection = primuv(geo_handle, "Cd", id_ref, ref_uv) * vector(atten_ref) / sample;
+        
+        }else{
+            //reflection = 0.1 / sample;
+        }
+        v@reflection += reflection;
+        
+    }
+}

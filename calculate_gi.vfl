@@ -1,0 +1,21 @@
+dict gi_dict = {};
+
+//loop every point to sum gi value
+for (int ptnum = 0; ptnum < @numpt; ptnum++){
+    int gi_ptnum[] = point(0, "gi_ptnum", ptnum);
+    float gi_dist[] = point(0, "gi_dist", ptnum);
+    
+    //loop each gi sample
+    for (int i = 0; i < len(gi_ptnum); i++){
+        string gi_id = itoa(gi_ptnum[i]);
+        vector gi_value = point(0, "Cd", ptnum) * vector(gi_dist[i]);
+        gi_dict[gi_id] += gi_value;
+    }
+}
+
+
+//apply gi
+for (int ptnum = 0; ptnum < @numpt; ptnum++){
+    vector gi_value = gi_dict[itoa(ptnum)];
+    setpointattrib(0, "gi", ptnum, gi_value);
+}

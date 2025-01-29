@@ -1,0 +1,2 @@
+@Cd += v@reflection * ch("reflection_intensity");
+@Cd += v@specular * ch("specular_intensity");
